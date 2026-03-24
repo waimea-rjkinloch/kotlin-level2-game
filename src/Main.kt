@@ -18,19 +18,19 @@ fun main() {
 
     createSquares()
     showSquares()
-    createCounters()
-    showCounters()
+    createWhiteCounters()
+    createBlackCounter()
 }
 
 fun createSquares() {
     while(squares.size < 16)
-        squares.add("")
+        squares.add("-")
 }
 
 fun showSquares(){
         println("")
         if (squares.size == 16) {
-            println("   1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16")
+            println("  1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16")
         }
     print("┌────")
     print("┬────".repeat(n = squares.size - 1))
@@ -44,13 +44,14 @@ fun showSquares(){
     print("┴────".repeat(n = squares.size - 1))
     println("┘")
 }
-fun createCounters() {
-    val whiteCounters = "⚪"
-    val blackCounter = "⚫"
-    repeat(4){
-        
+fun createWhiteCounters() {
+    repeat(4)  {
+        var randomSpace = squares.random()
+        val whiteCounter = "o"
+        randomSpace += whiteCounter
+
     }
 }
-fun showCounters() {
+fun createBlackCounter() {
 
 }
