@@ -1,3 +1,5 @@
+import java.awt.Color.white
+
 /**
  * =====================================================================
  * Programming Project for NCEA Level 2, Standard 91896
@@ -11,20 +13,28 @@
  * =====================================================================
  */
 val squares = mutableListOf<String>()
+val blankSquare = " "
+val whiteSquare = "X"
+val blackSquare = "O"
+var user1 = " "
+var user2 = " "
+var errorMove = 0
+
+
 fun main() {
     println("╭─────────────╮")
     println("│  Pinned \uD83D\uDCCC   │")
     println("╰─────────────╯")
 
     gameInstructions()
+    getUsersNames()
     createSquares()
-    showSquares()
     createWhiteCounters()
     createBlackCounter()
-    getUsersNames()
-    while ()
-    mainGameLoop()
-
+    showSquares()
+    while(true) {
+        playerOneTurn()
+    }
 }
 fun gameInstructions() {
     println("\n"+
@@ -49,7 +59,7 @@ fun gameInstructions() {
 }
 fun createSquares() {
     while(squares.size < 16)
-        squares.add("-")
+        squares.add(" ")
 }
 
 fun showSquares(){
@@ -61,7 +71,7 @@ fun showSquares(){
     print("┬────".repeat(n = squares.size - 1))
     println("┐")
     for (square in squares) {
-        print("│ ${square.padEnd(length = 3)}")
+        print("│ ${square.padEnd(length = 3).padStart(length = 3)}")
     }
     println("│")
 
@@ -70,31 +80,69 @@ fun showSquares(){
     println("┘")
 }
 fun createWhiteCounters() {
-    repeat(4)  {
-        var randomSpace = (1..15)
-        val whiteCounter = "O"
-
+    repeat(4) {
+        while (true) {
+            val random = (1..15).random()
+            if (squares[random] == blankSquare) {
+                squares[random] = whiteSquare
+                break
+            }
         }
     }
+}
 
 fun createBlackCounter() {
-
+    while (true) {
+        val random = (1..15).random()
+        if (squares[random] == blankSquare) {
+            squares[random] = blackSquare
+            break
+        }
+    }
 }
 fun getUsersNames(){
-    var user1: String
     while (true) {
+        println("")
         print("Player 1 whats your name? ")
         user1 = readln()
         if (user1.isNotBlank())break
     }
-    var user2: String
     while (true) {
+        println("")
         print("Player 2 what about you? ")
         user2 = readln()
         if(user2.isNotBlank())break
     }
+    println("")
     println("Welcome $user1 and $user2 to Pinned \uD83D\uDCCC")
 }
-fun mainGameLoop(){
+fun playerOneTurn(){
+    var moveCounter = 0
+    var pickedCounter = 0
+    while(true) {
+        print("$user1 which white square would you like to move? ")
+        pickedCounter = readln().toInt() - 1
+        if (squares[pickedCounter] == blankSquare){
+            errorMove += 1
+            break
+        }
+    }
+    while(true){
+        print("$user1 where would you like to move this counter? ")
+        moveCounter = readln().toInt() - 1
+
+        if (moveCounter >= pickedCounter){
+            errorChecking()
+        }
+    }
+}
+fun errorChecking(){
+        println("")
+        println("You have made an invalid choice".red())
+        println("")
+        showSquares()
+        playerOneTurn()
+    }
+fun playerTwoTurn(){
 
 }
