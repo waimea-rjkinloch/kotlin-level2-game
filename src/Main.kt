@@ -1,4 +1,5 @@
 import java.awt.Color.white
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MoveAction
 
 /**
  * =====================================================================
@@ -117,32 +118,54 @@ fun getUsersNames(){
     println("Welcome $user1 and $user2 to Pinned \uD83D\uDCCC")
 }
 fun playerOneTurn(){
+    errorMove = 0
     var moveCounter = 0
     var pickedCounter = 0
     while(true) {
-        print("$user1 which white square would you like to move? ")
+        print("$user1 which square would you like to move? ")
         pickedCounter = readln().toInt() - 1
-        if (squares[pickedCounter] == blankSquare){
-            errorMove += 1
-            break
+        if (squares[pickedCounter] == " ") {
+            println("")
+            println("You have made an invalid choice".red())
+            println("")
+            showSquares()
+            continue
         }
+        else break
     }
     while(true){
         print("$user1 where would you like to move this counter? ")
-        moveCounter = readln().toInt() - 1
-
-        if (moveCounter >= pickedCounter){
-            errorChecking()
+        moveCounter = readln().toInt() -1
+        if (moveCounter < pickedCounter) {
+//            println("")
+//            println("You have made an invalid choice".red())
+//            println("")
+//            showSquares()
+//            continue
+            if (squares[moveCounter] != " ") {
+                println("")
+                println("You have made an invalid choice".red())
+                println("")
+                showSquares()
+                continue
+            }else break
         }
-    }
-}
-fun errorChecking(){
-        println("")
+        else
+            println("")
         println("You have made an invalid choice".red())
         println("")
-        showSquares()
-        playerOneTurn()
+            continue
+
+
     }
+    println("Done")
+    showSquares()
+}
 fun playerTwoTurn(){
 
 }
+//val place1 = squares[pickedCounter]
+//val place2 = squares[moveCounter]
+//
+//squares[pickedCounter] = place2
+//squares[moveCounter] = place1
