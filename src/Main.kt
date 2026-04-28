@@ -20,6 +20,7 @@ val blackSquare = "O"
 var user1 = " "
 var user2 = " "
 var errorMove = 0
+var winCondition = 0
 
 
 fun main() {
@@ -33,9 +34,11 @@ fun main() {
     createWhiteCounters()
     createBlackCounter()
     showSquares()
-    while(true) {
+    while(winCondition <= 1) {
         playerOneTurn()
+        playerTwoTurn()
     }
+    winCondition()
 }
 fun gameInstructions() {
     println("\n"+
@@ -104,13 +107,13 @@ fun createBlackCounter() {
 fun getUsersNames(){
     while (true) {
         println("")
-        print("Player 1 whats your name? ")
+        print("Player 1 whats your name? ".red())
         user1 = readln()
         if (user1.isNotBlank())break
     }
     while (true) {
         println("")
-        print("Player 2 what about you? ")
+        print("Player 2 what about you? ".blue())
         user2 = readln()
         if(user2.isNotBlank())break
     }
@@ -137,11 +140,6 @@ fun playerOneTurn(){
         print("$user1 where would you like to move this counter? ")
         moveCounter = readln().toInt() -1
         if (moveCounter < pickedCounter) {
-//            println("")
-//            println("You have made an invalid choice".red())
-//            println("")
-//            showSquares()
-//            continue
             if (squares[moveCounter] != " ") {
                 println("")
                 println("You have made an invalid choice".red())
@@ -158,11 +156,23 @@ fun playerOneTurn(){
 
 
     }
-    println("Done")
+    if(moveCounter > 0){
+        if(squares[pickedCounter] == whiteSquare){
+            squares[pickedCounter] = " "
+            squares[moveCounter] = "X"
+        }else
+            squares[moveCounter] = "O"
+            squares[pickedCounter] = " "
+    }else
+        squares[pickedCounter] = " "
+        squares[moveCounter] = " "
     showSquares()
 }
 fun playerTwoTurn(){
 
+}
+fun winCondition(){
+    println("123")
 }
 //val place1 = squares[pickedCounter]
 //val place2 = squares[moveCounter]
