@@ -177,7 +177,55 @@ fun playerOneTurn() {
     showSquares()
 }
 fun playerTwoTurn(){
+    errorMove = 0
+    var moveCounter = 0
+    var pickedCounter = 0
+    while (true) {
+        print("$user1 which square would you like to move? ")
+        pickedCounter = readln().toInt() - 1
+        if (squares[pickedCounter] == " ") {
+            println("")
+            println("You have made an invalid choice".red())
+            println("")
+            showSquares()
+            continue
+        } else break
+    }
+    while (true) {
+        print("$user1 where would you like to move this counter? ")
+        moveCounter = readln().toInt() - 1
+        if (moveCounter < pickedCounter) {
+            if (squares[moveCounter] != " ") {
+                println("")
+                println("You have made an invalid choice".red())
+                println("")
+                showSquares()
+                continue
+            } else break
+        } else
+            println("")
+        println("You have made an invalid choice".red())
+        println("")
+        continue
 
+
+    }
+    if (moveCounter == 0) {
+        if (squares[pickedCounter] == blackSquare) {
+            squares[pickedCounter] = blankSquare
+            wins ++
+        } else {
+            squares[pickedCounter] = blankSquare
+        }
+    } else {
+        if (squares[pickedCounter] == whiteSquare) {
+            squares[pickedCounter] = blankSquare
+            squares[moveCounter] = "X"
+        } else
+            squares[moveCounter] = "O"
+        squares[pickedCounter] = blankSquare
+    }
+    showSquares()
 }
 fun winCondition(){
     println("123")
