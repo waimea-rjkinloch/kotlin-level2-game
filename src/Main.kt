@@ -20,28 +20,52 @@ val blackSquare = "O"
 var user1 = " "
 var user2 = " "
 var errorMove = 0
-var wins = 0
+var userOneWins = 0
+var userTwoWins = 0
 
 
 fun main() {
     println("╭─────────────╮")
     println("│  Pinned \uD83D\uDCCC   │")
     println("╰─────────────╯")
-
     gameInstructions()
     getUsersNames()
+}
+fun startOfGame(){
     createSquares()
     createWhiteCounters()
     createBlackCounter()
     showSquares()
     while(true) {
         playerOneTurn()
-        if (wins >= 1){
-            winCondition()
+        if (userOneWins >= 1){
+            var restartYN = " "
+            println("$user1, congratulations you've won!")
+            userOneWins = 0
+            println("would you like to play again? Y/N ")
+            when (restartYN) {
+                "Y" -> restartYN = "Y"
+                "y" -> restartYN = "Y"
+                "n" -> restartYN = "N"
+                "N" -> restartYN = "N"
+            }
+            if(restartYN == "Y"){startOfGame()}
+            if(restartYN == "N"){kotlin.system.exitProcess(0)}
         }
         playerTwoTurn()
-        if (wins >= 1){
-            winCondition()
+        if (userTwoWins >= 1){
+            var restartYN = " "
+            println("$user2, congratulations you've won!")
+            userTwoWins = 0
+            println("would you like to play again? Y/N ")
+            when (restartYN) {
+                "Y" -> restartYN = "Y"
+                "y" -> restartYN = "Y"
+                "n" -> restartYN = "N"
+                "N" -> restartYN = "N"
+            }
+            if(restartYN == "Y"){startOfGame()}
+            if(restartYN == "N"){kotlin.system.exitProcess(0)}
         }
     }
 }
@@ -124,6 +148,7 @@ fun getUsersNames(){
     }
     println("")
     println("Welcome $user1 and $user2 to Pinned \uD83D\uDCCC")
+    startOfGame()
 }
 fun playerOneTurn() {
     errorMove = 0
@@ -138,9 +163,19 @@ fun playerOneTurn() {
             println("")
             showSquares()
             continue
-        } else break
+        }
+        if (squares[pickedCounter - 1] == blankSquare)  {
+            break
+        }
     }
+
+
+
+
+
+
     while (true) {
+        var counterCount = false
         print("$user1 where would you like to move this counter? ")
         moveCounter = readln().toInt() - 1
         if (moveCounter < pickedCounter) {
@@ -150,7 +185,32 @@ fun playerOneTurn() {
                 println("")
                 showSquares()
                 continue
-            } else break
+            }
+
+            for (i in moveCounter .. pickedCounter) {
+                if (squares[i] == "X" || squares[i] == "O") {
+                    counterCount = true
+                }
+            }
+            if (counterCount) {
+                continue
+            }else {
+                if (moveCounter == 0) {
+                    if (squares[pickedCounter] == blackSquare) {
+                        squares[pickedCounter] = blankSquare
+                        userOneWins++
+                    } else {
+                        squares[pickedCounter] = blankSquare
+                    }
+                } else {
+                    if (squares[pickedCounter] == whiteSquare) {
+                        squares[pickedCounter] = blankSquare
+                        squares[moveCounter] = "X"
+                    } else
+                        squares[moveCounter] = "O"
+                    squares[pickedCounter] = blankSquare
+                }
+            }
         } else
             println("")
         println("You have made an invalid choice".red())
@@ -159,21 +219,6 @@ fun playerOneTurn() {
 
 
     }
-    if (moveCounter == 0) {
-        if (squares[pickedCounter] == blackSquare) {
-            squares[pickedCounter] = blankSquare
-            wins ++
-        } else {
-            squares[pickedCounter] = blankSquare
-        }
-    } else {
-        if (squares[pickedCounter] == whiteSquare) {
-            squares[pickedCounter] = blankSquare
-            squares[moveCounter] = "X"
-        } else
-            squares[moveCounter] = "O"
-            squares[pickedCounter] = blankSquare
-    }
     showSquares()
 }
 fun playerTwoTurn(){
@@ -181,7 +226,7 @@ fun playerTwoTurn(){
     var moveCounter = 0
     var pickedCounter = 0
     while (true) {
-        print("$user1 which square would you like to move? ")
+        print("$user2 which square would you like to move? ")
         pickedCounter = readln().toInt() - 1
         if (squares[pickedCounter] == " ") {
             println("")
@@ -192,7 +237,7 @@ fun playerTwoTurn(){
         } else break
     }
     while (true) {
-        print("$user1 where would you like to move this counter? ")
+        print("$user2 where would you like to move this counter? ")
         moveCounter = readln().toInt() - 1
         if (moveCounter < pickedCounter) {
             if (squares[moveCounter] != " ") {
@@ -213,7 +258,7 @@ fun playerTwoTurn(){
     if (moveCounter == 0) {
         if (squares[pickedCounter] == blackSquare) {
             squares[pickedCounter] = blankSquare
-            wins ++
+            userTwoWins ++
         } else {
             squares[pickedCounter] = blankSquare
         }
@@ -226,10 +271,6 @@ fun playerTwoTurn(){
         squares[pickedCounter] = blankSquare
     }
     showSquares()
-}
-fun winCondition(){
-    println("123")
-    wins = 1
 }
 //val place1 = squares[pickedCounter]
 //val place2 = squares[moveCounter]
